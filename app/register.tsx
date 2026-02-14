@@ -5,6 +5,7 @@ import React, { useState } from "react";
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const handleSubmit = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -13,7 +14,21 @@ export default function RegisterScreen() {
       Alert.alert("Error", "Please enter a valid email address");
       return;
     }
+    if (!email.trim() || !password.trim()  || !confirmPassword.trim() || !phone.trim()) {
+          Alert.alert("Error", "Please fill all required fields");
+          return;
+    }
+    router.replace("/login");
+
+
+    setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setPhone("");
+
   };
+  const isFormValid = email.trim() !== "" && password.trim() !== "" && phone.trim() !== "" && phone.trim().length === 10 && 
+  confirmPassword.trim() !== "" && password === confirmPassword;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create Account</Text>
@@ -27,7 +42,7 @@ export default function RegisterScreen() {
         <TextInput style={styles.phoneInput} placeholder="Phone Number" keyboardType="numeric" maxLength={10} value={phone} onChangeText={setPhone} />
       </View>
         <TouchableOpacity style={styles.button}
-        onPress={()=> router.replace("/login")}>
+        onPress={handleSubmit} disabled={!isFormValid}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       <TouchableOpacity onPress={()=> router.push("/login")}>

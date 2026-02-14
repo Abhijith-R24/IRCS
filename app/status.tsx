@@ -19,7 +19,7 @@ export default function StatusPage() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push('../dashboard/index')}
+        onPress={() => router.push('/dashboard')}
       >
         <Text style={styles.buttonText}>Back to Dashboard</Text>
       </TouchableOpacity>

@@ -1,7 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { Alert, ScrollView, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Link } from 'expo-router';
 import { router } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
@@ -72,6 +71,7 @@ export default function ComplaintScreen() {
         setPhone("");
         setLocation("");
         setDescription("");
+
     };
 
     return (

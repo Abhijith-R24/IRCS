@@ -5,19 +5,32 @@ import React, { useState } from "react";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = () => { 
+  const handleSubmit = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (!emailPattern.test(email)) {
-  Alert.alert("Error", "Please enter a valid email address");
-  return;
-}
-};
-const handleLogin = () => {
-  // Implement login logic here (e.g., API call)
-  // For now, we'll just navigate to the dashboard
-  router.replace("/dashboard");
-};
+    // Check if fields are empty
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Error", "Please fill all required fields");
+      return;
+    }
+
+    // Validate email format
+    if (!emailPattern.test(email)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+
+    // If everything is valid → Navigate
+    router.replace("/dashboard");
+
+
+    setEmail("");
+    setPassword("");
+       
+
+  };
+   const isFormValid = email.trim() !== "" && password.trim() !== "";
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome Back!!</Text>
@@ -26,7 +39,7 @@ const handleLogin = () => {
 
       <TextInput style={styles.input} placeholder="Password " secureTextEntry  value={password} onChangeText={setPassword} />
 
-      <TouchableOpacity style={styles.button}onPress={handleLogin}>
+      <TouchableOpacity style={styles.button}onPress={handleSubmit}  disabled={!isFormValid}>
 
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>

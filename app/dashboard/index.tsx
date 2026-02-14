@@ -1,10 +1,11 @@
 import React from "react";
-import {View,Text,StyleSheet,TouchableOpacity,FlatList,StatusBar} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, StatusBar } from "react-native";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { router } from 'expo-router';
-import {Drawer} from "expo-router/drawer";
-
-
+import { Drawer } from "expo-router/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { DrawerActions } from "@react-navigation/native";
 
 const recentReports = [
   { id: "1", type: "Theft", status: "In Progress" },
@@ -13,7 +14,11 @@ const recentReports = [
 ];
 
 export default function DashboardScreen() {
-  
+  const navigation = useNavigation<any>();
+
+
+
+
   const handleSubmit = () => {
     router.push('/status');
   };
@@ -21,29 +26,33 @@ export default function DashboardScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <Drawer>
-       <Drawer.Screen name="Settings" options={{ title: "Settings" }} />
-            <Drawer.Screen name="Logout" options={{ title: "Logout" }} />
+        <Drawer.Screen name="Settings" options={{ title: "Settings" }} />
       </Drawer>
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Crime Connect</Text>
-    </View>
+        <TouchableOpacity style={styles.menuButton} onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+
+          <Ionicons name="menu" size={28} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle} >CRIME CONNECT</Text>
+        <View style={{ width: 28 }} />
+      </View>
 
       {/* Quick Actions */}
       <View style={styles.actionsContainer}>
         <TouchableOpacity style={styles.actionCard}
-        onPress={()=> router.push("/complaint")}>
+          onPress={() => router.push("/complaint")}>
           <MaterialIcons name="report" size={30} color="#fff" />
           <Text style={styles.actionText}>Report Crime</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionCard}
-        onPress={()=> router.push("/status")}>
+          onPress={() => router.push("/status")}>
           <FontAwesome5 name="search-location" size={28} color="#fff" />
           <Text style={styles.actionText}>Track Case</Text>
         </TouchableOpacity>
- 
+
         <TouchableOpacity style={styles.actionCard}>
           <MaterialIcons name="warning" size={30} color="#fff" />
           <Text style={styles.actionText}>Emergency</Text>
@@ -81,9 +90,9 @@ export default function DashboardScreen() {
           </View>
         )}
       />
-       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>View All Complaints</Text>
-              </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>View All Complaints</Text>
+      </TouchableOpacity>
 
     </View>
   );
@@ -104,7 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
     alignItems: "center",
-    marginBottom: 20
+    marginBottom: 20,
+    elevation: 2,
+    backgroundColor: "#fff"
   },
 
   headerTitle: {
@@ -113,8 +124,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
+    justifyContent: "center",
+    flex: 1,
+    marginLeft: 35
   },
-  
+
   actionsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -206,5 +220,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16
+  },
+  menuButton: {
+    position: "absolute",
+    left: 15,
+    justifyContent: "center",  // 👈 CENTER ICON INSIDE BUTTON
+    alignItems: "center",
+    height: 40,               // 👈 FIX HEIGHT
+    width: 40,
+    marginTop: 30,
   }
 });
